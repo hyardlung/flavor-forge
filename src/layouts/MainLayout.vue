@@ -1,41 +1,17 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
-    </q-header>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
+    <VHeader @toggle-menu="toggleDrawer" />
+    <q-drawer v-model="drawerOpen"
+              side="right"
+              bordered
+              :mini-width="60">
       <q-list>
-        <q-item-label
-          header
-        >
+        <q-item-label header>
           Essential Links
         </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
+        <EssentialLink v-for="link in essentialLinks"
+                       :key="link.title"
+                       v-bind="link" />
       </q-list>
     </q-drawer>
 
@@ -48,6 +24,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
+import VHeader from 'src/components/VHeader.vue';
 
 const essentialLinks: EssentialLinkProps[] = [
   {
@@ -94,9 +71,9 @@ const essentialLinks: EssentialLinkProps[] = [
   }
 ];
 
-const leftDrawerOpen = ref(false)
+const drawerOpen = ref(false)
 
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value
+function toggleDrawer() {
+  drawerOpen.value = !drawerOpen.value
 }
 </script>
