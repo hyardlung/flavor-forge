@@ -23,7 +23,7 @@ import { useStore } from '../stores/store'
 const store = useStore();
 
 onBeforeMount(() => {
-  store.getRecipe()
+  store.getRandomRecipe()
 })
 </script>
 

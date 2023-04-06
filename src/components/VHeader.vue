@@ -1,6 +1,6 @@
 <template>
-  <q-header elevated>
-    <q-toolbar class="q-px-lg q-py-sm">
+  <q-header>
+    <q-toolbar class="q-px-lg q-py-md">
       <router-link to="/">
         <q-img src="src/assets/logo.svg"
                width="282px"

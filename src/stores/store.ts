@@ -12,13 +12,14 @@ export const useStore = defineStore('store', () => {
     id: 0,
     image: '',
     title: '',
-    summary: ''
+    summary: '',
+    diets: []
   })
 
-  async function getRecipe() {
+  async function getRandomRecipe() {
     const resp = await axios.get(`${baseURL.value}/recipes/random?apiKey=${apiKey.value}`)
     recipe.value = resp.data.recipes[0]
   }
 
-  return { apiKey, recipe, getRecipe }
+  return { apiKey, recipe, getRandomRecipe }
 });
