@@ -1,5 +1,5 @@
 <template>
-  <div class="row q-py-lg justify-center hero">
+  <section class="row q-py-lg justify-center hero">
     <div class="col-10">
       <div class="row q-pa-lg justify-between">
         <div class="col-5">
@@ -30,7 +30,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">
@@ -65,24 +65,23 @@ function startPolling() {
     margin-bottom: 20px
 
   &__diets
-    display: flex
-    gap: 20px
     margin-bottom: 40px
+    display: flex
+    gap: 10px 14px
+    flex-wrap: wrap
 
   &__diet
     padding: 5px 20px
-    font-size: 22px
+    font-size: 18px
     line-height: 26px
     color: $secondary
     border: 1px solid $secondary
     border-radius: 15px
+    white-space: nowrap
 
   &__btn
     border-radius: 15px
 
-.divider
-  width: 100%
-  height: 3px
-  border-radius: 3px
-  background: $secondary
+  &__divider
+    background: $secondary
 </style>
