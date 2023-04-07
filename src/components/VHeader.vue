@@ -1,27 +1,31 @@
 <template>
-  <q-header elevated>
-    <q-toolbar class="q-px-lg q-py-sm">
-      <router-link to="/">
-        <q-img src="src/assets/logo.svg"
-               width="282px"
-               height="45px"
-               fit="contain" />
-      </router-link>
-      <q-space />
-      <q-btn-toggle v-model="model"
-                    flat
-                    stretch
-                    toggle-color="yellow"
-                    :options="links"
-                    class="gt-xs"/>
-      <q-btn flat
-             dense
-             round
-             icon="menu"
-             aria-label="Menu"
-             @click="openMenu"
-             class="xs"/>
-    </q-toolbar>
+  <q-header>
+    <div class="row justify-center">
+      <div class="col-12">
+        <q-toolbar class="q-px-lg q-py-md">
+          <router-link to="/">
+            <q-img src="src/assets/logo.svg"
+                   width="282px"
+                   height="45px"
+                   fit="contain" />
+          </router-link>
+          <q-space />
+          <q-btn-toggle v-model="model"
+                        flat
+                        stretch
+                        toggle-color="yellow"
+                        :options="links"
+                        class="gt-xs"/>
+          <q-btn flat
+                 dense
+                 round
+                 icon="menu"
+                 aria-label="Menu"
+                 @click="openMenu"
+                 class="xs"/>
+        </q-toolbar>
+      </div>
+    </div>
   </q-header>
 </template>
 

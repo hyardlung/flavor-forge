@@ -18,4 +18,10 @@ export interface Recipe {
   title: string;
   image: string;
   summary: string;
+  diets: [];
+}
+
+export interface mealType {
+  name: string;
+  icon: string;
 }
