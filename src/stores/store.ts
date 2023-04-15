@@ -1,13 +1,16 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import type { Ref } from 'vue';
-import axios from 'axios';
-import { Recipe, mealType } from 'src/components/models';
-import { laHamburgerSolid, laGlassMartiniSolid, laCookieBiteSolid, laBaconSolid, laBreadSliceSolid, laMugHotSolid, laCarrotSolid, laPepperHotSolid, laDrumstickBiteSolid, laAppleAltSolid, laPizzaSliceSolid } from '@quasar/extras/line-awesome'
+import { makeRequest } from './../api/index'
+
+import { Recipe, findedRecipe, mealType } from 'src/components/models';
+import { laHamburgerSolid, laGlassMartiniSolid, laCookieBiteSolid,
+  laBaconSolid, laBreadSliceSolid, laMugHotSolid,
+  laCarrotSolid, laPepperHotSolid, laDrumstickBiteSolid,
+  laAppleAltSolid, laPizzaSliceSolid } from '@quasar/extras/line-awesome'
 
 export const useStore = defineStore('store', () => {
-  const apiKey = ref(process.env.apiKey || '')
-  const baseURL = ref('https://api.spoonacular.com')
+  const searchLoading = ref(false)
   const recipe = ref<Recipe>({
     id: 0,
     image: '',
@@ -15,6 +18,15 @@ export const useStore = defineStore('store', () => {
     summary: '',
     diets: []
   })
+
+  const findedRecipes: Ref<findedRecipe[]> = ref([
+    {
+      id: 0,
+      title: '',
+      image: '',
+    }
+  ])
+
   const mealTypes: Ref<mealType[]> = ref([
     { name: 'main course', icon: laHamburgerSolid },
     { name: 'side dish', icon: laDrumstickBiteSolid },
@@ -30,12 +42,23 @@ export const useStore = defineStore('store', () => {
     { name: 'soup', icon: '' },
     { name: 'marinade', icon: '' },
     { name: 'fingerfood', icon: '' },
-  ])
+  ]);
 
-  async function getRandomRecipe() {
-    const resp = await axios.get(`${baseURL.value}/recipes/random?apiKey=${apiKey.value}`)
-    recipe.value = resp.data.recipes[0]
-  }
+  async function getRecipesByType(type: string) {
+    searchLoading.value = true;
+    try {
+      const response = await makeRequest('/recipes/complexSearch', { type: type } );
+      findedRecipes.value = response;
+    } catch (err) {
+      console.log(err);
+    } finally {
+      searchLoading.value = false;
+    }
+  };
 
-  return { apiKey, recipe, mealTypes, getRandomRecipe }
+  function getRandomRecipe() {
+    // return api.get('/recipes/random');
+  };
+
+  return { searchLoading, recipe, findedRecipes, mealTypes, getRandomRecipe, getRecipesByType }
 });
