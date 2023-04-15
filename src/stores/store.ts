@@ -10,14 +10,15 @@ import { laHamburgerSolid, laGlassMartiniSolid, laCookieBiteSolid,
   laAppleAltSolid, laPizzaSliceSolid } from '@quasar/extras/line-awesome'
 
 export const useStore = defineStore('store', () => {
-  const searchLoading = ref(false)
+  const searchLoading = ref(false);
+  const currentDiet = ref('');
   const recipe = ref<Recipe>({
     id: 0,
     image: '',
     title: '',
     summary: '',
     diets: []
-  })
+  });
 
   const findedRecipes: Ref<findedRecipe[]> = ref([
     {
@@ -25,7 +26,7 @@ export const useStore = defineStore('store', () => {
       title: '',
       image: '',
     }
-  ])
+  ]);
 
   const mealTypes: Ref<mealType[]> = ref([
     { name: 'main course', icon: laHamburgerSolid },
@@ -44,6 +45,12 @@ export const useStore = defineStore('store', () => {
     { name: 'fingerfood', icon: '' },
   ]);
 
+  const diets: Ref<string[]> = ref([
+    'Gluten Free', 'Ketogenic', 'Vegetarian',
+    'Lacto-Vegetarian', 'Ovo-Vegetarian', 'Vegan',
+    'Pescetarian', 'Paleo', 'Primal', 'Low FODMAP', 'Whole30'
+  ]);
+
   async function getRecipesByType(type: string) {
     searchLoading.value = true;
     try {
@@ -60,5 +67,5 @@ export const useStore = defineStore('store', () => {
     // return api.get('/recipes/random');
   };
 
-  return { searchLoading, recipe, findedRecipes, mealTypes, getRandomRecipe, getRecipesByType }
+  return { searchLoading, currentDiet, recipe, findedRecipes, mealTypes, diets, getRandomRecipe, getRecipesByType }
 });
