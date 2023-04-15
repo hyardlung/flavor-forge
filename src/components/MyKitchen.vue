@@ -10,7 +10,7 @@
       <div class="row row-wrap q-gutter-y-xl">
         <div v-for="item in store.mealTypes"
                :key="item.name" class="col-2">
-          <type-button :type="item"></type-button>
+          <type-button :type="item" @go-to-type="selectType"></type-button>
       </div>
       </div>
     </div>
@@ -23,6 +23,11 @@ import CustomTitle from './CustomTitle.vue';
 import TypeButton from './TypeButton.vue';
 
 const store = useStore();
+
+function selectType(type: string) {
+  store.getRecipesByType(type)
+
+}
 </script>
 
 <style lang="sass">

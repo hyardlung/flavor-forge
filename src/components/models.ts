@@ -18,10 +18,16 @@ export interface Recipe {
   title: string;
   image: string;
   summary: string;
-  diets: [];
+  diets: string[];
 }
 
 export interface mealType {
   name: string;
   icon: string;
+}
+
+export interface findedRecipe {
+  id: number;
+  title: string;
+  image: string;
 }

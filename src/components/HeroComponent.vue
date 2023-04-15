@@ -34,14 +34,14 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, onMounted } from 'vue';
+import { onMounted } from 'vue';
 import { useStore } from '../stores/store'
 
 const store = useStore()
 
 onMounted(() => {
   // startPolling()
-  store.getRandomRecipe()
+  // store.getRandomRecipe()
 })
 
 function startPolling() {
