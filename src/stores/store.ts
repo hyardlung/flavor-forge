@@ -28,6 +28,14 @@ export const useStore = defineStore('store', () => {
     }
   ]);
 
+  const findedRecipesByDiet: Ref<findedRecipe[]> = ref ([
+    {
+      id: 0,
+      title: '',
+      image: '',
+    }
+  ])
+
   const mealTypes: Ref<mealType[]> = ref([
     { name: 'main course', icon: laHamburgerSolid },
     { name: 'side dish', icon: laDrumstickBiteSolid },
@@ -63,9 +71,26 @@ export const useStore = defineStore('store', () => {
     }
   };
 
+  async function getRecipesByDiet(diet: string) {
+    searchLoading.value = true;
+    try {
+      const response = await makeRequest('/recipes/complexSearch', { diet: diet } );
+      findedRecipesByDiet.value = response;
+      console.log(findedRecipesByDiet.value)
+    } catch (err) {
+      console.log(err);
+    } finally {
+      searchLoading.value = false;
+    }
+  }
+
   function getRandomRecipe() {
     // return api.get('/recipes/random');
   };
 
-  return { searchLoading, currentDiet, recipe, findedRecipes, mealTypes, diets, getRandomRecipe, getRecipesByType }
+  return {
+    searchLoading, currentDiet, recipe,
+    findedRecipes, findedRecipesByDiet, mealTypes, diets,
+    getRandomRecipe, getRecipesByType, getRecipesByDiet
+  }
 });

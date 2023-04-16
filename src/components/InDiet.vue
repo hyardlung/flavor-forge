@@ -9,13 +9,7 @@
         </custom-title>
 
         <div class="row col-12 card-wrapper">
-          <recipe-card/>
-          <recipe-card/>
-          <recipe-card/>
-          <recipe-card/>
-          <recipe-card/>
-          <recipe-card/>
-          <recipe-card/>
+          <recipe-card :recipe="recipe" v-for="recipe in store.findedRecipesByDiet" :key="recipe.id"/>
         </div>
       </div>
     </div>
@@ -31,7 +25,8 @@ import RecipeCard from './RecipeCard.vue';
 const store = useStore();
 
 onMounted(() => {
-  getNextDiet()
+  // store.getRecipesByDiet(store.currentDiet) // TODO: uncommented before submitting it for review
+  // getNextDiet() // TODO: here too
 })
 
 const getNextDiet = () => {
@@ -39,8 +34,9 @@ const getNextDiet = () => {
   let index = 1;
   const intervalId = setInterval(() => {
     store.currentDiet = store.diets[index];
+    store.getRecipesByDiet(store.currentDiet)
     index = (index + 1) % store.diets.length;
-  }, 5000);
+  }, 10000);
 
   return () => {
     clearInterval(intervalId);

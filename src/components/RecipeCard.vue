@@ -9,14 +9,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { Ref } from 'vue';
 import { findedRecipe } from './models';
-const recipe: Ref<findedRecipe> = ref({
-            id: 716429,
-            title: 'Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs',
-            image: 'https://spoonacular.com/recipeImages/716429-312x231.jpg',
-})
+
+const props = defineProps<{
+  recipe: findedRecipe
+}>()
 </script>
 
 <style lang="sass" scoped>
