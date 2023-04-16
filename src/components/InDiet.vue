@@ -7,6 +7,16 @@
         <template #dymamic-part>{{ store.currentDiet }}</template>
           <template #title>Diet</template>
         </custom-title>
+
+        <div class="row col-12 card-wrapper">
+          <recipe-card/>
+          <recipe-card/>
+          <recipe-card/>
+          <recipe-card/>
+          <recipe-card/>
+          <recipe-card/>
+          <recipe-card/>
+        </div>
       </div>
     </div>
   </section>
@@ -16,8 +26,10 @@
 import { onMounted } from 'vue';
 import { useStore } from 'src/stores/store';
 import CustomTitle from './CustomTitle.vue';
+import RecipeCard from './RecipeCard.vue';
 
 const store = useStore();
+
 onMounted(() => {
   getNextDiet()
 })
@@ -37,4 +49,9 @@ const getNextDiet = () => {
 </script>
 
 <style lang="sass" scoped>
+.card-wrapper
+  margin-top: 50px
+  display: grid
+  grid-template-columns: repeat(3, 1fr)
+  gap: 40px
 </style>
