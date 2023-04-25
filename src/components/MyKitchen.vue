@@ -1,5 +1,5 @@
 <template>
-  <section class="row q-py-lg justify-center hero">
+  <section class="row q-py-lg justify-center">
     <div class="col-10">
       <div class="row q-pa-lg q-mb-sm">
         <custom-title>

@@ -1,6 +1,6 @@
 <template>
   <div class="row col-12 title-wrapper">
-    <div class="col-auto title">
+    <div :class="['col-auto', 'title', {'order-last': isMirrored}]">
       <h4 class="q-my-none">
         <slot name="pre-title" />
         <span><slot name="dymamic-part"/></span>
@@ -14,6 +14,9 @@
 </template>
 
 <script setup lang="ts">
+const props = defineProps<{
+  isMirrored?: boolean
+}>()
 </script>
 
 <style lang="sass" scoped>
@@ -30,5 +33,14 @@
     font-size: 90px
     font-weight: 600
   h4
+    position: relative
     font-size: 45px
+    span
+      position: absolute
+      top: -6px
+      left: 60px
+      font-size: 35px
+      line-height: 60px
+      color: $accent
+      white-space: nowrap
 </style>

@@ -10,16 +10,25 @@ import { laHamburgerSolid, laGlassMartiniSolid, laCookieBiteSolid,
   laAppleAltSolid, laPizzaSliceSolid } from '@quasar/extras/line-awesome'
 
 export const useStore = defineStore('store', () => {
-  const searchLoading = ref(false)
+  const searchLoading = ref(false);
+  const currentDiet = ref('');
   const recipe = ref<Recipe>({
     id: 0,
     image: '',
     title: '',
     summary: '',
     diets: []
-  })
+  });
 
   const findedRecipes: Ref<findedRecipe[]> = ref([
+    {
+      id: 0,
+      title: '',
+      image: '',
+    }
+  ]);
+
+  const findedRecipesByDiet: Ref<findedRecipe[]> = ref ([
     {
       id: 0,
       title: '',
@@ -44,6 +53,12 @@ export const useStore = defineStore('store', () => {
     { name: 'fingerfood', icon: '' },
   ]);
 
+  const diets: Ref<string[]> = ref([
+    'Gluten Free', 'Ketogenic', 'Vegetarian',
+    'Lacto-Vegetarian', 'Ovo-Vegetarian', 'Vegan',
+    'Pescetarian', 'Paleo', 'Primal', 'Low FODMAP', 'Whole30'
+  ]);
+
   async function getRecipesByType(type: string) {
     searchLoading.value = true;
     try {
@@ -56,9 +71,26 @@ export const useStore = defineStore('store', () => {
     }
   };
 
+  async function getRecipesByDiet(diet: string) {
+    searchLoading.value = true;
+    try {
+      const response = await makeRequest('/recipes/complexSearch', { diet: diet } );
+      findedRecipesByDiet.value = response;
+      console.log(findedRecipesByDiet.value)
+    } catch (err) {
+      console.log(err);
+    } finally {
+      searchLoading.value = false;
+    }
+  }
+
   function getRandomRecipe() {
     // return api.get('/recipes/random');
   };
 
-  return { searchLoading, recipe, findedRecipes, mealTypes, getRandomRecipe, getRecipesByType }
+  return {
+    searchLoading, currentDiet, recipe,
+    findedRecipes, findedRecipesByDiet, mealTypes, diets,
+    getRandomRecipe, getRecipesByType, getRecipesByDiet
+  }
 });
