@@ -21,6 +21,15 @@ export interface Recipe {
   diets: string[];
 }
 
+export interface RecipeInformation {
+  id: number | string;
+  title: string;
+  image: string;
+  summary: string;
+  dishTypes: string[];
+  diets: string[];
+}
+
 export interface mealType {
   name: string;
   icon: string;

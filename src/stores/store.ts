@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import type { Ref } from 'vue';
 import { makeRequest } from './../api/index'
 
-import { Recipe, findedRecipe, mealType } from 'src/components/models';
+import { Recipe, RecipeInformation, findedRecipe, mealType } from 'src/components/models';
 import { laHamburgerSolid, laGlassMartiniSolid, laCookieBiteSolid,
   laBaconSolid, laBreadSliceSolid, laMugHotSolid,
   laCarrotSolid, laPepperHotSolid, laDrumstickBiteSolid,
@@ -19,6 +19,15 @@ export const useStore = defineStore('store', () => {
     summary: '',
     diets: []
   });
+
+  const recipeInformation = ref<RecipeInformation>({
+    id: 0,
+    title: '',
+    image: '',
+    summary: '',
+    dishTypes: [],
+    diets: []
+  })
 
   const findedRecipes: Ref<findedRecipe[]> = ref([
     {
@@ -81,15 +90,27 @@ export const useStore = defineStore('store', () => {
     } finally {
       searchLoading.value = false;
     }
-  }
+  };
+
+  async function getRecipeDetails(id: number | string) {
+    searchLoading.value = true;
+    try {
+      const response = await makeRequest(`/recipes/${id}/information`);
+      recipeInformation.value = response;
+    } catch (err) {
+      console.log(err)
+    } finally {
+      searchLoading.value = false;
+    }
+  };
 
   function getRandomRecipe() {
     // return api.get('/recipes/random');
   };
 
   return {
-    searchLoading, currentDiet, recipe,
+    searchLoading, currentDiet, recipe, recipeInformation,
     findedRecipes, findedRecipesByDiet, mealTypes, diets,
-    getRandomRecipe, getRecipesByType, getRecipesByDiet
+    getRandomRecipe, getRecipesByType, getRecipesByDiet, getRecipeDetails
   }
 });

@@ -1,31 +1,38 @@
 <template>
   <section class="row q-py-lg justify-center hero">
-    <div class="col-10">
+    <h1 v-if="store.searchLoading">Loading...</h1>
+    <div v-else class="col-10">
       <div class="row q-pa-lg justify-between">
-        <div class="col-5">
-          <h1 class="text-h2">{{ store.recipe.title }}</h1>
+        <div :class="[`${isHomeComponent ? 'col-5' : 'col-7'}`]">
+          <h1 :class="['q-mt-none',
+                       'q-mb-sm',
+                       'text-weight-bold',
+                       'text-uppercase',
+                       `${isHomeComponent ? 'text-h2' : 'text-h3'}`]"
+          >{{ recipe.title }}</h1>
+          <p v-if="!isHomeComponent" class="text-subtitle1" v-html="recipe.summary" />
           <div class="divider hero__divider"></div>
 
           <div class="hero__diets">
-            <div v-for="diet in store.recipe.diets"
+            <div v-for="diet in recipe.diets"
                  :key="diet"
                  class="hero__diet">
               {{ diet }}
             </div>
           </div>
 
-          <q-btn padding="15px 40px"
+          <q-btn v-if="isHomeComponent" padding="15px 40px"
                  color="accent"
                  text-color="secondary"
                  label="Read now"
                  unelevated
                  class="hero__btn" />
         </div>
-        <div class="col-6">
-          <q-img :src="store.recipe.image"
+        <div :class="[`${isHomeComponent ? 'col-6' : 'col-4'}`]">
+          <q-img :src="recipe.image"
                  spinner-color="secondary"
                  spinner-size="82px"
-                 :ratio="16 / 10"
+                 :ratio="isHomeComponent ? 16 / 10 : 10 / 12"
                  img-class="hero__img" />
         </div>
       </div>
@@ -36,8 +43,14 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useStore } from '../stores/store'
+import { Recipe, RecipeInformation } from './models';
 
-const store = useStore()
+const props = defineProps<{
+  recipe: Recipe | RecipeInformation;
+  isHomeComponent?: boolean
+}>()
+
+const store = useStore();
 
 onMounted(() => {
   // startPolling()
