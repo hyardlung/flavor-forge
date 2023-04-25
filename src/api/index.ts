@@ -6,32 +6,18 @@ superagentCache(request);
 const baseURL = 'https://api.spoonacular.com';
 const apiKey = process.env.apiKey || '';
 
-export async function makeRequest(url: string, query: object, headers?: object | undefined): Promise<any> {
+export async function makeRequest(url: string, query?: object, headers?: object | undefined): Promise<any> {
   try {
     const response = await request
       .get(baseURL + url)
       .set(headers ? headers : {})
       .query({ ...query, apiKey });
-    return response.body.results;
+    return response.body;
   } catch (error) {
     console.error(error);
     throw error;
   }
 }
-
-
-
-
-
-// export function getRecipeDetails(id: number, result: {}, loading: boolean) {
-//   try {
-//     request.get(`/recipes/${id}`).then(res => result = res.body)
-//   } catch (err) {
-//     console.log(err)
-//   } finally {
-//     loading = false
-//   }
-// }
 
 // export async function getRecipesByType(type?: string, result: [], loading: boolean) {
 //   loading = true

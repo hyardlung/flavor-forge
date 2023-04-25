@@ -63,7 +63,7 @@ export const useStore = defineStore('store', () => {
     searchLoading.value = true;
     try {
       const response = await makeRequest('/recipes/complexSearch', { type: type } );
-      findedRecipes.value = response;
+      findedRecipes.value = response.results;
     } catch (err) {
       console.log(err);
     } finally {
@@ -75,8 +75,7 @@ export const useStore = defineStore('store', () => {
     searchLoading.value = true;
     try {
       const response = await makeRequest('/recipes/complexSearch', { diet: diet } );
-      findedRecipesByDiet.value = response;
-      console.log(findedRecipesByDiet.value)
+      findedRecipesByDiet.value = response.results;
     } catch (err) {
       console.log(err);
     } finally {
