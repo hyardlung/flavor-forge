@@ -4,12 +4,15 @@
       <div class="row q-pa-lg q-mb-sm">
         <custom-title>
           <template #pre-title>In </template>
-        <template #dymamic-part>{{ store.currentDiet }}</template>
+          <template #dymamic-part>{{ store.currentDiet }}</template>
           <template #title>Diet</template>
         </custom-title>
 
         <div class="row col-12 card-wrapper">
-          <recipe-card :recipe="recipe" v-for="recipe in store.findedRecipesByDiet" :key="recipe.id"/>
+          <recipe-card :recipe="recipe"
+                       v-for="recipe in store.findedRecipesByDiet"
+                       :key="recipe.id"
+                       @card-click="goToRecipe(recipe.id)" />
         </div>
       </div>
     </div>
@@ -17,6 +20,7 @@
 </template>
 
 <script setup lang="ts">
+import Router from '../router/index';
 import { onMounted } from 'vue';
 import { useStore } from 'src/stores/store';
 import CustomTitle from './CustomTitle.vue';
@@ -26,22 +30,29 @@ const store = useStore();
 
 onMounted(() => {
   // store.getRecipesByDiet(store.currentDiet) // TODO: uncommented before submitting it for review
-  // getNextDiet() // TODO: here too
+  getNextDiet() // TODO: here too
 })
 
-const getNextDiet = () => {
-  store.currentDiet = store.diets[0]
+function getNextDiet() {
+  store.currentDiet = store.diets[0];
+  store.getRecipesByDiet(store.currentDiet);
   let index = 1;
-  const intervalId = setInterval(() => {
-    store.currentDiet = store.diets[index];
-    store.getRecipesByDiet(store.currentDiet)
-    index = (index + 1) % store.diets.length;
-  }, 10000);
+  // const intervalId = setInterval(() => {
+  //   store.currentDiet = store.diets[index];
+  //   store.getRecipesByDiet(store.currentDiet)
+  //   index = (index + 1) % store.diets.length;
+  // }, 10000);
 
-  return () => {
-    clearInterval(intervalId);
-  };
+  // return () => {
+  //   clearInterval(intervalId);
+  // };
 };
+
+function goToRecipe(id: number) {
+  store.getRecipeDetails(id);
+  // console.log(store.recipe)
+  // if (!store.searchLoading) Router.push(`/recipes/${id}`)
+}
 </script>
 
 <style lang="sass" scoped>
