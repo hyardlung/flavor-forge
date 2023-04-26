@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import type { Ref } from 'vue';
 import { makeRequest } from './../api/index'
 
-import { Recipe, RecipeInformation, findedRecipe, mealType } from 'src/components/models';
+import { Recipe, RecipeInformation, findedRecipe, mealType, Ingredient } from 'src/components/models';
 import { laHamburgerSolid, laGlassMartiniSolid, laCookieBiteSolid,
   laBaconSolid, laBreadSliceSolid, laMugHotSolid,
   laCarrotSolid, laPepperHotSolid, laDrumstickBiteSolid,
@@ -20,13 +20,22 @@ export const useStore = defineStore('store', () => {
     diets: []
   });
 
+  const ingredient = ref<Ingredient>({
+    id: 0,
+    name: '',
+    image: '',
+    amount: 0,
+    unit: ''
+  })
+
   const recipeInformation = ref<RecipeInformation>({
     id: 0,
     title: '',
     image: '',
     summary: '',
     dishTypes: [],
-    diets: []
+    diets: [],
+    extendedIngredients: []
   })
 
   const findedRecipes: Ref<findedRecipe[]> = ref([
@@ -110,7 +119,7 @@ export const useStore = defineStore('store', () => {
 
   return {
     searchLoading, currentDiet, recipe, recipeInformation,
-    findedRecipes, findedRecipesByDiet, mealTypes, diets,
+    findedRecipes, findedRecipesByDiet, mealTypes, diets, ingredient,
     getRandomRecipe, getRecipesByType, getRecipesByDiet, getRecipeDetails
   }
 });
