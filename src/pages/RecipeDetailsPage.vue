@@ -1,19 +1,28 @@
 <template>
-  <hero-component :recipe="store.recipeInformation" :is-home-component="false"/>
+  <hero-component :recipe="store.recipeInformation"
+                  :is-home-component="false" />
   <section class="row q-py-lg justify-center">
     <div class="column col-10">
       <h1 class="text-h4 text-uppercase recipe__title">Ingredients</h1>
       <h1 v-if="store.searchLoading">Loading...</h1>
-      <article v-else class="row q-pa-lg justify-between">
+      <article v-else
+               class="row q-pa-lg justify-between">
         <div class="col-7 q-gutter-y-lg">
-          <ingredient-card
-            v-for="ingredient in store.recipeInformation.extendedIngredients"
-            :key="ingredient.id"
-            :ingredient="ingredient"/>
+          <ingredient-card v-for="ingredient in store.recipeInformation.extendedIngredients"
+                           :key="ingredient.id"
+                           :ingredient="ingredient" />
         </div>
-        <div class="col-4">
 
-          <nutrients-chart :nutrients="store.nutrients" />
+        <div class="col-4">
+          <div class="q-pa-sm nutrients-wrapper">
+            <nutrients-chart :nutrients="store.nutrients" />
+            <p class="q-pl-md q-pt-md"
+               style="font-size: 20px">
+              <span class="q-mr-sm">{{ store.recipeInformation.servings }}</span>
+              <span>{{ store.recipeInformation.servings > 1 ? 'servings' : 'serving' }}</span>
+            </p>
+          </div>
+          <cooking-data />
         </div>
       </article>
     </div>
@@ -27,6 +36,7 @@ import { useStore } from 'src/stores/store'
 import HeroComponent from 'src/components/HeroComponent.vue';
 import IngredientCard from 'src/components/IngredientCard.vue';
 import NutrientsChart from 'src/components/NutrientsChart.vue';
+import CookingData from 'src/components/CookingData.vue';
 
 const route = useRoute();
 const store = useStore();
@@ -36,12 +46,15 @@ onMounted(() => {
   store.getRecipeDetails(id);
   console.log(store.nutrients)
 });
-
 </script>
 
 <style lang="sass" scoped>
 .recipe
-
   &__title
     color: $primary
+
+.nutrients-wrapper
+  background-color: #FFFEF6
+  border-radius: 10px
+  filter: drop-shadow(0px 3px 5px rgba(0, 30, 47, 0.1))
 </style>

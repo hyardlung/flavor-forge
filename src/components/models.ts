@@ -44,6 +44,9 @@ export interface RecipeInformation {
   dishTypes: string[];
   diets: string[];
   extendedIngredients: Ingredient[];
+  servings: number
+  readyInMinutes: number
+  preparationMinutes: number
 }
 
 export interface mealType {

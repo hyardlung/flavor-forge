@@ -53,7 +53,7 @@ const chartOptions = reactive({
       height: 16,
     },
     itemMargin: {
-      vertical: 10
+      vertical: 5
     },
   },
   dataLabels: {
@@ -91,8 +91,4 @@ const chartOptions = reactive({
 </script>
 
 <style lang="sass" scoped>
-.nutrients-chart
-  background-color: #FFFEF6
-  border-radius: 10px
-  filter: drop-shadow(0px 3px 5px rgba(0, 30, 47, 0.1))
 </style>

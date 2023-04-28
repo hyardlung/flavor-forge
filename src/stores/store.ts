@@ -35,7 +35,10 @@ export const useStore = defineStore('store', () => {
     summary: '',
     dishTypes: [],
     diets: [],
-    extendedIngredients: []
+    extendedIngredients: [],
+    servings: 0,
+    readyInMinutes: 0,
+    preparationMinutes: 0
   })
 
   const nutrients: Ref<Nutrient[]> = ref([]);
