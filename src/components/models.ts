@@ -29,6 +29,13 @@ export interface Ingredient {
   unit: string;
 }
 
+export interface Nutrient {
+  name: string;
+  amount: number;
+  unit: string;
+  percentOfDailyNeeds: number;
+}
+
 export interface RecipeInformation {
   id: number | string;
   title: string;

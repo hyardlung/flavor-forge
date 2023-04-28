@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import type { Ref } from 'vue';
 import { makeRequest } from './../api/index'
 
-import { Recipe, RecipeInformation, findedRecipe, mealType, Ingredient } from 'src/components/models';
+import { Recipe, RecipeInformation, findedRecipe, mealType, Ingredient, Nutrient } from 'src/components/models';
 import { laHamburgerSolid, laGlassMartiniSolid, laCookieBiteSolid,
   laBaconSolid, laBreadSliceSolid, laMugHotSolid,
   laCarrotSolid, laPepperHotSolid, laDrumstickBiteSolid,
@@ -37,6 +37,8 @@ export const useStore = defineStore('store', () => {
     diets: [],
     extendedIngredients: []
   })
+
+  const nutrients: Ref<Nutrient[]> = ref([]);
 
   const findedRecipes: Ref<findedRecipe[]> = ref([
     {
@@ -104,8 +106,9 @@ export const useStore = defineStore('store', () => {
   async function getRecipeDetails(id: number | string) {
     searchLoading.value = true;
     try {
-      const response = await makeRequest(`/recipes/${id}/information`);
+      const response = await makeRequest(`/recipes/${id}/information`, { includeNutrition: true });
       recipeInformation.value = response;
+      nutrients.value = response.nutrition.nutrients;
     } catch (err) {
       console.log(err)
     } finally {
@@ -119,7 +122,8 @@ export const useStore = defineStore('store', () => {
 
   return {
     searchLoading, currentDiet, recipe, recipeInformation,
-    findedRecipes, findedRecipesByDiet, mealTypes, diets, ingredient,
+    findedRecipes, findedRecipesByDiet, mealTypes, diets,
+    ingredient, nutrients,
     getRandomRecipe, getRecipesByType, getRecipesByDiet, getRecipeDetails
   }
 });
