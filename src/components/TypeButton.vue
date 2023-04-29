@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import { mealType } from './models'
 
-const props = defineProps<{
+defineProps<{
   type: mealType
 }>()
 

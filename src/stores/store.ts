@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import type { Ref } from 'vue';
 import { makeRequest } from './../api/index'
 
-import { Recipe, findedRecipe, mealType } from 'src/components/models';
+import { Recipe, RecipeInformation, findedRecipe, mealType, Ingredient, Nutrient, InstructionStep } from 'src/components/models';
 import { laHamburgerSolid, laGlassMartiniSolid, laCookieBiteSolid,
   laBaconSolid, laBreadSliceSolid, laMugHotSolid,
   laCarrotSolid, laPepperHotSolid, laDrumstickBiteSolid,
@@ -19,6 +19,30 @@ export const useStore = defineStore('store', () => {
     summary: '',
     diets: []
   });
+
+  const ingredient = ref<Ingredient>({
+    id: 0,
+    name: '',
+    image: '',
+    amount: 0,
+    unit: ''
+  })
+
+  const recipeInformation = ref<RecipeInformation>({
+    id: 0,
+    title: '',
+    image: '',
+    summary: '',
+    dishTypes: [],
+    diets: [],
+    extendedIngredients: [],
+    servings: 0,
+    readyInMinutes: 0,
+    preparationMinutes: 0
+  });
+
+  const recipeInstruction: Ref<InstructionStep[]> = ref([]);
+  const nutrients: Ref<Nutrient[]> = ref([]);
 
   const findedRecipes: Ref<findedRecipe[]> = ref([
     {
@@ -81,6 +105,31 @@ export const useStore = defineStore('store', () => {
     } finally {
       searchLoading.value = false;
     }
+  };
+
+  async function getRecipeDetails(id: number | string) {
+    searchLoading.value = true;
+    try {
+      const response = await makeRequest(`/recipes/${id}/information`, { includeNutrition: true });
+      recipeInformation.value = response;
+      nutrients.value = response.nutrition.nutrients;
+    } catch (err) {
+      console.log(err)
+    } finally {
+      searchLoading.value = false;
+    }
+  };
+
+  async function getRecipeInstruction(id: number | string) {
+    searchLoading.value = true;
+    try {
+      const response = await makeRequest(`/recipes/${id}/analyzedInstructions`);
+      recipeInstruction.value = response[0].steps;
+    } catch (err) {
+      console.log(err)
+    } finally {
+      searchLoading.value = false;
+    }
   }
 
   function getRandomRecipe() {
@@ -88,8 +137,9 @@ export const useStore = defineStore('store', () => {
   };
 
   return {
-    searchLoading, currentDiet, recipe,
+    searchLoading, currentDiet, recipe, recipeInformation,
     findedRecipes, findedRecipesByDiet, mealTypes, diets,
-    getRandomRecipe, getRecipesByType, getRecipesByDiet
+    ingredient, nutrients, recipeInstruction,
+    getRandomRecipe, getRecipesByType, getRecipesByDiet, getRecipeDetails, getRecipeInstruction
   }
 });
