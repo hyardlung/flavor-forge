@@ -45,9 +45,9 @@ import { onMounted } from 'vue';
 import { useStore } from '../stores/store'
 import { Recipe, RecipeInformation } from './models';
 
-const props = defineProps<{
+defineProps<{
   recipe: Recipe | RecipeInformation;
-  isHomeComponent?: boolean
+  isHomeComponent?: boolean;
 }>()
 
 const store = useStore();

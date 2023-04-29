@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import { Ingredient } from './models'
 
-const props = defineProps<{
+defineProps<{
   ingredient: Ingredient
 }>()
 </script>

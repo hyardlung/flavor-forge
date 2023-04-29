@@ -1,12 +1,12 @@
 <template>
   <hero-component :recipe="store.recipeInformation"
                   :is-home-component="false" />
+  <!-- ingredients -->
   <section class="row q-py-lg justify-center">
     <div class="column col-10">
-      <h1 class="text-h4 text-uppercase recipe__title">Ingredients</h1>
-      <h1 v-if="store.searchLoading">Loading...</h1>
-      <article v-else
-               class="row q-pa-lg justify-between">
+      <h2 class="text-h4 text-uppercase recipe__title">Ingredients</h2>
+      <q-spinner-clock v-if="store.searchLoading" size="4em" color="primary" />
+      <div v-else class="row q-pa-lg justify-between">
         <div class="col-7 q-gutter-y-lg">
           <ingredient-card v-for="ingredient in store.recipeInformation.extendedIngredients"
                            :key="ingredient.id"
@@ -24,7 +24,18 @@
           </div>
           <cooking-data />
         </div>
-      </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- cooking -->
+  <section class="row q-py-lg justify-center">
+    <div class="column col-10">
+      <h2 class="text-h4 text-uppercase recipe__title">Cooking</h2>
+      <q-spinner-clock v-if="store.searchLoading" size="4em" color="primary" />
+      <template v-else>
+        <cooking-step v-for="step in store.recipeInstruction" :key="step.number" :step="step"/>
+      </template>
     </div>
   </section>
 </template>
@@ -37,6 +48,7 @@ import HeroComponent from 'src/components/HeroComponent.vue';
 import IngredientCard from 'src/components/IngredientCard.vue';
 import NutrientsChart from 'src/components/NutrientsChart.vue';
 import CookingData from 'src/components/CookingData.vue';
+import CookingStep from 'src/components/CookingStep.vue';
 
 const route = useRoute();
 const store = useStore();
@@ -44,7 +56,8 @@ const store = useStore();
 onMounted(() => {
   const id = route.params.id as number | string;
   store.getRecipeDetails(id);
-  console.log(store.nutrients)
+  store.getRecipeInstruction(id);
+  // console.log(store.recipeInstruction.steps)
 });
 </script>
 

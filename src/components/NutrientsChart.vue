@@ -11,17 +11,13 @@
 
 <script setup lang="ts">
 import _ from 'lodash';
-import { reactive, computed, onBeforeMount} from 'vue';
+import { reactive, computed } from 'vue';
 import VueApexCharts from 'vue3-apexcharts';
 import { Nutrient } from './models';
 
 const props = defineProps<{
   nutrients: Nutrient[],
 }>();
-
-onBeforeMount(() => {
-  console.log(calories.value)
-})
 
 const calories = computed(() => {
   return _.find(props.nutrients, { name: 'Calories' })

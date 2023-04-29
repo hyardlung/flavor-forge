@@ -1,5 +1,5 @@
 <template>
-  <div class="column q-mt-lg">
+  <div class="column q-mt-lg q-col-gutter-lg">
     <div v-if="store.recipeInformation.preparationMinutes > 0" class="col">
       <p class="q-mb-sm cooking__text">Preparation time</p>
       <div class="row items-center">

@@ -49,6 +49,17 @@ export interface RecipeInformation {
   preparationMinutes: number
 }
 
+export interface InstructionStep {
+  number: number
+  step: string
+  equipment: Equip[]
+}
+
+interface Equip {
+  name: string
+  image: string
+}
+
 export interface mealType {
   name: string;
   icon: string;
