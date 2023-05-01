@@ -12,6 +12,11 @@ import { laHamburgerSolid, laGlassMartiniSolid, laCookieBiteSolid,
 export const useStore = defineStore('store', () => {
   const searchLoading = ref(false);
   const currentDiet = ref('');
+
+  const selectedType = ref();
+  const selectedDiet = ref();
+  const searchField = ref();
+
   const recipe = ref<Recipe>({
     id: 0,
     image: '',
@@ -44,13 +49,7 @@ export const useStore = defineStore('store', () => {
   const recipeInstruction: Ref<InstructionStep[]> = ref([]);
   const nutrients: Ref<Nutrient[]> = ref([]);
 
-  const findedRecipes: Ref<findedRecipe[]> = ref([
-    {
-      id: 0,
-      title: '',
-      image: '',
-    }
-  ]);
+  const findedRecipes: Ref<findedRecipe[]> = ref([]);
 
   const findedRecipesByDiet: Ref<findedRecipe[]> = ref ([
     {
@@ -61,20 +60,20 @@ export const useStore = defineStore('store', () => {
   ])
 
   const mealTypes: Ref<mealType[]> = ref([
-    { name: 'main course', icon: laHamburgerSolid },
-    { name: 'side dish', icon: laDrumstickBiteSolid },
-    { name: 'dessert', icon: laCookieBiteSolid },
-    { name: 'appetizer', icon: laPizzaSliceSolid },
-    { name: 'salad', icon: laCarrotSolid },
-    { name: 'bread', icon: laBreadSliceSolid },
-    { name: 'breakfast', icon: laBaconSolid },
-    { name: 'sauce', icon: laPepperHotSolid },
-    { name: 'snack', icon: laAppleAltSolid },
-    { name: 'beverage', icon: laGlassMartiniSolid },
-    { name: 'drink', icon: laMugHotSolid },
-    { name: 'soup', icon: '' },
-    { name: 'marinade', icon: '' },
-    { name: 'fingerfood', icon: '' },
+    { name: 'Main course', icon: laHamburgerSolid },
+    { name: 'Side dish', icon: laDrumstickBiteSolid },
+    { name: 'Dessert', icon: laCookieBiteSolid },
+    { name: 'Appetizer', icon: laPizzaSliceSolid },
+    { name: 'Salad', icon: laCarrotSolid },
+    { name: 'Bread', icon: laBreadSliceSolid },
+    { name: 'Breakfast', icon: laBaconSolid },
+    { name: 'Sauce', icon: laPepperHotSolid },
+    { name: 'Snack', icon: laAppleAltSolid },
+    { name: 'Beverage', icon: laGlassMartiniSolid },
+    { name: 'Drink', icon: laMugHotSolid },
+    { name: 'Soup', icon: '' },
+    { name: 'Marinade', icon: '' },
+    { name: 'Fingerfood', icon: '' },
   ]);
 
   const diets: Ref<string[]> = ref([
@@ -87,6 +86,7 @@ export const useStore = defineStore('store', () => {
     searchLoading.value = true;
     try {
       const response = await makeRequest('/recipes/complexSearch', { type: type } );
+      selectedType.value = type;
       findedRecipes.value = response.results;
     } catch (err) {
       console.log(err);
@@ -132,14 +132,43 @@ export const useStore = defineStore('store', () => {
     }
   }
 
+  async function searchSubmit() {
+    searchLoading.value = true;
+    try {
+      const response = await makeRequest('/recipes/complexSearch', {
+        type: selectedType.value || '',
+        diet: selectedDiet.value || '',
+        query: searchField.value || '' });
+      findedRecipes.value = response.results;
+      console.log(response.results)
+    } catch (err) {
+      console.log(err)
+    } finally {
+      searchLoading.value = false;
+    }
+  }
+
   function getRandomRecipe() {
     // return api.get('/recipes/random');
   };
+
+  async function getRandomRecipes() {
+    searchLoading.value = true;
+    try {
+      const response = await makeRequest('/recipes/random', { number: 10 });
+      findedRecipes.value = response.recipes;
+    } catch (err) {
+      console.log(err)
+    } finally {
+      searchLoading.value = false;
+    }
+  }
 
   return {
     searchLoading, currentDiet, recipe, recipeInformation,
     findedRecipes, findedRecipesByDiet, mealTypes, diets,
     ingredient, nutrients, recipeInstruction,
-    getRandomRecipe, getRecipesByType, getRecipesByDiet, getRecipeDetails, getRecipeInstruction
+    selectedType, selectedDiet, searchField,
+    getRandomRecipe, getRandomRecipes, getRecipesByType, getRecipesByDiet, getRecipeDetails, getRecipeInstruction, searchSubmit
   }
 });

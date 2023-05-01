@@ -1,12 +1,15 @@
 <template>
   <div v-if="type.icon"
        class="button-wrapper">
-    <q-btn padding="20px"
+    <!-- <q-btn padding="20px"
            class="type-button"
            unelevated
            @click="typeHandle(type.name)">
       <q-icon :name="type.icon" />
-    </q-btn>
+    </q-btn> -->
+    <router-link to="/recipes" @click="typeHandle(type.name)">
+      <q-icon :name="type.icon" size="md" color="primary"/>
+    </router-link>
     <span>{{ type.name }}</span>
   </div>
 
