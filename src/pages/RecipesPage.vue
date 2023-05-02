@@ -9,7 +9,7 @@
         </div>
         <q-form
           @submit="store.searchSubmit"
-          @reset="onReset"
+          @reset="store.searchReset"
           class="row q-gutter-md q-mt-lg"
         >
           <div class="col row q-col-gutter-md">
@@ -50,13 +50,23 @@
           </div>
         </q-form>
 
-        <div class="row card-wrapper">
+        <div class="row q-mt-xl">
+          <q-pagination
+            boundary-numbers
+            color="primary"
+            :max="store.pagination.pages"
+            :max-pages="6"
+            v-model="store.pagination.currentPage"
+            @update:model-value="goToPage"
+          />
+        </div>
+
+        <div class="row q-mt-lg card-wrapper">
           <q-spinner-clock v-if="store.searchLoading || !store.findedRecipes" size="4em" color="primary" />
           <template v-else>
             <recipe-card v-for="recipe in store.findedRecipes" :key="recipe.id" :recipe="recipe"></recipe-card>
           </template>
         </div>
-
       </div>
     </section>
   </q-page>
@@ -77,12 +87,15 @@ onBeforeMount(() => {
 
 const types = computed(() => {
   return _.map(store.mealTypes, 'name');
-})
+});
+
+function goToPage(pageNumber: number) {
+  store.searchSubmit(pageNumber);
+};
 </script>
 
 <style lang="sass" scoped>
 .card-wrapper
-  margin-top: 50px
   display: grid
   grid-template-columns: repeat(3, 1fr)
   gap: 40px

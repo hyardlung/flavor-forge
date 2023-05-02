@@ -50,14 +50,14 @@ export interface RecipeInformation {
 }
 
 export interface InstructionStep {
-  number: number
-  step: string
-  equipment: Equip[]
+  number: number;
+  step: string;
+  equipment: Equip[];
 }
 
 interface Equip {
-  name: string
-  image: string
+  name: string;
+  image: string;
 }
 
 export interface mealType {
@@ -69,4 +69,10 @@ export interface findedRecipe {
   id: number;
   title: string;
   image: string;
+}
+
+export interface Pagination {
+  currentPage: number;
+  perPage: number;
+  pages: number;
 }

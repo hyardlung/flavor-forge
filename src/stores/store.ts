@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import type { Ref } from 'vue';
 import { makeRequest } from './../api/index'
 
-import { Recipe, RecipeInformation, findedRecipe, mealType, Ingredient, Nutrient, InstructionStep } from 'src/components/models';
+import { Recipe, RecipeInformation, findedRecipe, mealType, Ingredient, Nutrient, InstructionStep, Pagination } from 'src/components/models';
 import { laHamburgerSolid, laGlassMartiniSolid, laCookieBiteSolid,
   laBaconSolid, laBreadSliceSolid, laMugHotSolid,
   laCarrotSolid, laPepperHotSolid, laDrumstickBiteSolid,
@@ -82,6 +82,12 @@ export const useStore = defineStore('store', () => {
     'Pescetarian', 'Paleo', 'Primal', 'Low FODMAP', 'Whole30'
   ]);
 
+  const pagination = ref<Pagination>({
+    currentPage: 1,
+    perPage: 0,
+    pages: 0
+  })
+
   async function getRecipesByType(type: string) {
     searchLoading.value = true;
     try {
@@ -132,20 +138,35 @@ export const useStore = defineStore('store', () => {
     }
   }
 
-  async function searchSubmit() {
+  async function searchSubmit(page: number) {
     searchLoading.value = true;
     try {
       const response = await makeRequest('/recipes/complexSearch', {
         type: selectedType.value || '',
         diet: selectedDiet.value || '',
-        query: searchField.value || '' });
+        query: searchField.value || '',
+        number: 12,
+        offset: pagination.value.currentPage <= 1
+          ? 0
+          : (pagination.value.currentPage - 1) * pagination.value.perPage
+      });
       findedRecipes.value = response.results;
-      console.log(response.results)
+      pagination.value = {
+        currentPage: isNaN(page) ? 1 : page,
+        perPage: 12,
+        pages: response.totalResults / response.number
+      }
     } catch (err) {
       console.log(err)
     } finally {
       searchLoading.value = false;
     }
+  }
+
+  function searchReset() {
+    selectedType.value = '';
+    selectedDiet.value = '';
+    searchField.value = '';
   }
 
   function getRandomRecipe() {
@@ -155,7 +176,7 @@ export const useStore = defineStore('store', () => {
   async function getRandomRecipes() {
     searchLoading.value = true;
     try {
-      const response = await makeRequest('/recipes/random', { number: 10 });
+      const response = await makeRequest('/recipes/random', { number: 12 });
       findedRecipes.value = response.recipes;
     } catch (err) {
       console.log(err)
@@ -168,7 +189,9 @@ export const useStore = defineStore('store', () => {
     searchLoading, currentDiet, recipe, recipeInformation,
     findedRecipes, findedRecipesByDiet, mealTypes, diets,
     ingredient, nutrients, recipeInstruction,
-    selectedType, selectedDiet, searchField,
-    getRandomRecipe, getRandomRecipes, getRecipesByType, getRecipesByDiet, getRecipeDetails, getRecipeInstruction, searchSubmit
+    selectedType, selectedDiet, searchField, pagination,
+    getRandomRecipe, getRandomRecipes, getRecipesByType,
+    getRecipesByDiet, getRecipeDetails, getRecipeInstruction,
+    searchSubmit, searchReset
   }
 });
