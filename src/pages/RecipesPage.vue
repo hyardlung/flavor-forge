@@ -10,44 +10,81 @@
         <q-form
           @submit="store.searchSubmit"
           @reset="store.searchReset"
-          class="row q-gutter-md q-mt-lg"
+          class="column q-gutter-md q-mt-lg"
         >
-          <div class="col row q-col-gutter-md">
-            <q-select
-              filled
-              v-model="store.selectedType"
-              :options="types"
-              label="Meal type"
-              label-color="primary"
-              style="width: 250px"
-            />
+          <div class="row q-col-gutter-md">
+            <div class="col-auto">
+              <q-select
+                filled
+                transition-show="jump-up"
+                transition-hide="jump-down"
+                v-model="store.selectedType"
+                :options="types"
+                options-dense
+                dense
+                label="Meal type"
+                label-color="primary"
+                style="width: 250px"
+              />
+            </div>
 
-            <q-select
-              filled
-              v-model="store.selectedDiet"
-              :options="store.diets"
-              label="Diet"
-              label-color="primary"
-              style="width: 250px"
-            />
+            <div class="col-auto">
+              <q-select
+                filled
+                transition-show="jump-up"
+                transition-hide="jump-down"
+                v-model="store.selectedDiet"
+                :options="store.diets"
+                options-dense
+                dense
+                label="Diet"
+                label-color="primary"
+                style="width: 250px"
+              />
+            </div>
 
-            <q-input
-              filled
-              label="Search"
-              label-color="primary"
+            <div class="col">
+              <q-input
+                filled
+                dense
+                label="Search"
+                label-color="primary"
+                v-model="store.searchField"
+              >
+                <template v-slot:append>
+                  <q-icon name="search" color="primary" />
+                </template>
+                </q-input>
+            </div>
+          </div>
+          <div class="row q-col-gutter-md q-mt-md">
+            <div class="col-auto">
+              <q-range
+              name="price_range"
+              v-model="store.proteinRange"
+              label
+              dense
               style="width: 250px"
-              v-model="store.searchField"
-            >
-            <template v-slot:append>
-              <q-icon name="search" color="primary" />
-            </template>
-            </q-input>
+              />
+              <p style="color: #767676">Protein (grams per serving)</p>
+            </div>
+
+            <div class="col-auto">
+              <q-range
+              name="price_range"
+              v-model="store.carbohydratesRange"
+              label
+              dense
+              style="width: 250px"
+              />
+              <p style="color: #767676">Carbohydrates (grams per serving)</p>
+            </div>
+            <div class="col-auto q-ml-auto">
+              <q-btn label="Search" type="submit" color="primary"/>
+              <q-btn label="Reset" type="reset" color="primary" outline class="q-ml-sm" />
+            </div>
           </div>
 
-          <div class="col-auto">
-            <q-btn label="Submit" type="submit" color="primary"/>
-            <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
-          </div>
         </q-form>
 
         <div class="row q-mt-xl">
@@ -75,7 +112,7 @@
 <script setup lang="ts">
 import _ from 'lodash';
 import { useStore } from '../stores/store'
-import { computed, onBeforeMount } from 'vue';
+import { ref, computed, onBeforeMount } from 'vue';
 import CustomTitle from 'src/components/CustomTitle.vue';
 import RecipeCard from 'src/components/RecipeCard.vue';
 
