@@ -57,7 +57,6 @@ onMounted(() => {
   const id = route.params.id as number | string;
   store.getRecipeDetails(id);
   store.getRecipeInstruction(id);
-  // console.log(store.recipeInstruction.steps)
 });
 </script>
 

@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import type { Ref } from 'vue';
 import { makeRequest } from './../api/index'
 
-import { Recipe, RecipeInformation, findedRecipe, mealType, Ingredient, Nutrient, InstructionStep, Pagination } from 'src/components/models';
+import { Recipe, RecipeInformation, findedRecipe, mealType, Ingredient, Nutrient, InstructionStep, Pagination, NutrientsRange } from 'src/components/models';
 import { laHamburgerSolid, laGlassMartiniSolid, laCookieBiteSolid,
   laBaconSolid, laBreadSliceSolid, laMugHotSolid,
   laCarrotSolid, laPepperHotSolid, laDrumstickBiteSolid,
@@ -49,6 +49,15 @@ export const useStore = defineStore('store', () => {
   const recipeInstruction: Ref<InstructionStep[]> = ref([]);
   const nutrients: Ref<Nutrient[]> = ref([]);
 
+  const proteinRange = ref<NutrientsRange>({
+    min: 10,
+    max: 40
+  });
+  const carbohydratesRange = ref<NutrientsRange>({
+    min: 5,
+    max: 30
+  });
+
   const findedRecipes: Ref<findedRecipe[]> = ref([]);
 
   const findedRecipesByDiet: Ref<findedRecipe[]> = ref ([
@@ -91,7 +100,7 @@ export const useStore = defineStore('store', () => {
   async function getRecipesByType(type: string) {
     searchLoading.value = true;
     try {
-      const response = await makeRequest('/recipes/complexSearch', { type: type } );
+      const response = await makeRequest('/recipes/complexSearch', { type: type, number: 12 } );
       selectedType.value = type;
       findedRecipes.value = response.results;
     } catch (err) {
@@ -104,7 +113,7 @@ export const useStore = defineStore('store', () => {
   async function getRecipesByDiet(diet: string) {
     searchLoading.value = true;
     try {
-      const response = await makeRequest('/recipes/complexSearch', { diet: diet } );
+      const response = await makeRequest('/recipes/complexSearch', { diet: diet, number: 12 } );
       findedRecipesByDiet.value = response.results;
     } catch (err) {
       console.log(err);
@@ -144,6 +153,10 @@ export const useStore = defineStore('store', () => {
       const response = await makeRequest('/recipes/complexSearch', {
         type: selectedType.value || '',
         diet: selectedDiet.value || '',
+        minProtein: proteinRange.value.min,
+        maxProtein: proteinRange.value.max,
+        minCarbs: proteinRange.value.min,
+        maxCarbs: proteinRange.value.max,
         query: searchField.value || '',
         number: 12,
         offset: pagination.value.currentPage <= 1
@@ -169,8 +182,16 @@ export const useStore = defineStore('store', () => {
     searchField.value = '';
   }
 
-  function getRandomRecipe() {
-    // return api.get('/recipes/random');
+  async function getRandomRecipe() {
+    searchLoading.value = true;
+    try {
+      const response = await makeRequest('/recipes/random');
+      recipe.value = response.recipes[0];
+    } catch (err) {
+      console.log(err)
+    } finally {
+      searchLoading.value = false;
+    }
   };
 
   async function getRandomRecipes() {
@@ -188,7 +209,7 @@ export const useStore = defineStore('store', () => {
   return {
     searchLoading, currentDiet, recipe, recipeInformation,
     findedRecipes, findedRecipesByDiet, mealTypes, diets,
-    ingredient, nutrients, recipeInstruction,
+    ingredient, nutrients, recipeInstruction, proteinRange, carbohydratesRange,
     selectedType, selectedDiet, searchField, pagination,
     getRandomRecipe, getRandomRecipes, getRecipesByType,
     getRecipesByDiet, getRecipeDetails, getRecipeInstruction,

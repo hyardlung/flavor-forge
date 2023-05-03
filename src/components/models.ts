@@ -76,3 +76,8 @@ export interface Pagination {
   perPage: number;
   pages: number;
 }
+
+export interface NutrientsRange {
+  min: number;
+  max: number;
+}
