@@ -65,7 +65,7 @@ function startPolling() {
   setInterval(() => {
     const randomIndex = Math.floor(Math.random() * store.findedRecipes.length);
     store.recipe = store.findedRecipes[randomIndex];
-  }, 5000);
+  }, 10000);
 }
 
 function goToRecipe(id: number | string) {
