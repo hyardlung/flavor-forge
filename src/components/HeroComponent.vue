@@ -45,21 +45,28 @@ import { onMounted } from 'vue';
 import { useStore } from '../stores/store'
 import { Recipe, RecipeInformation } from './models';
 
-defineProps<{
+interface Props {
   recipe: Recipe | RecipeInformation;
   isHomeComponent?: boolean;
-}>()
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  isHomeComponent: true
+});
 
 const store = useStore();
 
 onMounted(() => {
-  // startPolling()
-  // store.getRandomRecipe()
+  if (props.isHomeComponent) {
+    store.getRandomRecipe();
+    startPolling()
+  }
 })
 
 function startPolling() {
   setInterval(() => {
-    store.getRandomRecipe();
+    const randomIndex = Math.floor(Math.random() * store.findedRecipes.length);
+    store.recipe = store.findedRecipes[randomIndex];
   }, 5000);
 }
 </script>

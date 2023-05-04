@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <hero-component :recipe="store.recipe"/>
+    <hero-component :recipe="store.recipe" />
     <my-kitchen />
     <in-diet />
   </q-page>

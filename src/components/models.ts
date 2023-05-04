@@ -69,6 +69,8 @@ export interface findedRecipe {
   id: number;
   title: string;
   image: string;
+  summary: string;
+  diets: string[];
 }
 
 export interface Pagination {
