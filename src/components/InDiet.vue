@@ -20,8 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import Router from '../router/index';
-import { onMounted } from 'vue';
+import { onMounted, onUnmounted } from 'vue';
 import { useStore } from 'src/stores/store';
 import CustomTitle from './CustomTitle.vue';
 import RecipeCard from './RecipeCard.vue';
@@ -29,29 +28,26 @@ import RecipeCard from './RecipeCard.vue';
 const store = useStore();
 
 onMounted(() => {
-  // store.getRecipesByDiet(store.currentDiet) // TODO: uncommented before submitting it for review
-  getNextDiet() // TODO: here too
+  getNextDiet()
 })
 
 function getNextDiet() {
   store.currentDiet = store.diets[0];
   store.getRecipesByDiet(store.currentDiet);
-  let index = 1;
-  // const intervalId = setInterval(() => {
-  //   store.currentDiet = store.diets[index];
-  //   store.getRecipesByDiet(store.currentDiet)
-  //   index = (index + 1) % store.diets.length;
-  // }, 10000);
+  let index = 0;
+  const intervalId = setInterval(() => {
+    store.currentDiet = store.diets[index];
+    store.getRecipesByDiet(store.currentDiet)
+    index = (index + 1) % store.diets.length;
+  }, 10000);
 
-  // return () => {
-  //   clearInterval(intervalId);
-  // };
+  onUnmounted(() => {
+    clearInterval(intervalId);
+  });
 };
 
 function goToRecipe(id: number) {
   store.getRecipeDetails(id);
-  // console.log(store.recipe)
-  // if (!store.searchLoading) Router.push(`/recipes/${id}`)
 }
 </script>
 

@@ -59,14 +59,7 @@ export const useStore = defineStore('store', () => {
   });
 
   const findedRecipes: Ref<findedRecipe[]> = ref([]);
-
-  const findedRecipesByDiet: Ref<findedRecipe[]> = ref ([
-    {
-      id: 0,
-      title: '',
-      image: '',
-    }
-  ])
+  const findedRecipesByDiet: Ref<findedRecipe[]> = ref ([])
 
   const mealTypes: Ref<mealType[]> = ref([
     { name: 'Main course', icon: laHamburgerSolid },
@@ -113,7 +106,7 @@ export const useStore = defineStore('store', () => {
   async function getRecipesByDiet(diet: string) {
     searchLoading.value = true;
     try {
-      const response = await makeRequest('/recipes/complexSearch', { diet: diet, number: 12 } );
+      const response = await makeRequest('/recipes/complexSearch', { diet: diet, number: 6 } );
       findedRecipesByDiet.value = response.results;
     } catch (err) {
       console.log(err);
@@ -182,23 +175,12 @@ export const useStore = defineStore('store', () => {
     searchField.value = '';
   }
 
-  async function getRandomRecipe() {
-    searchLoading.value = true;
-    try {
-      const response = await makeRequest('/recipes/random');
-      recipe.value = response.recipes[0];
-    } catch (err) {
-      console.log(err)
-    } finally {
-      searchLoading.value = false;
-    }
-  };
-
   async function getRandomRecipes() {
     searchLoading.value = true;
     try {
       const response = await makeRequest('/recipes/random', { number: 12 });
       findedRecipes.value = response.recipes;
+      recipe.value = findedRecipes.value[0];
     } catch (err) {
       console.log(err)
     } finally {
@@ -211,8 +193,8 @@ export const useStore = defineStore('store', () => {
     findedRecipes, findedRecipesByDiet, mealTypes, diets,
     ingredient, nutrients, recipeInstruction, proteinRange, carbohydratesRange,
     selectedType, selectedDiet, searchField, pagination,
-    getRandomRecipe, getRandomRecipes, getRecipesByType,
-    getRecipesByDiet, getRecipeDetails, getRecipeInstruction,
+    getRandomRecipes, getRecipesByType, getRecipesByDiet,
+    getRecipeDetails, getRecipeInstruction,
     searchSubmit, searchReset
   }
 });

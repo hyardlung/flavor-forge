@@ -1,13 +1,7 @@
 <template>
   <div v-if="type.icon"
        class="button-wrapper">
-    <!-- <q-btn padding="20px"
-           class="type-button"
-           unelevated
-           @click="typeHandle(type.name)">
-      <q-icon :name="type.icon" />
-    </q-btn> -->
-    <router-link to="/recipes" @click="typeHandle(type.name)">
+    <router-link to="/recipes" @click="typeHandle(type.name)" class="type-button">
       <q-icon :name="type.icon" size="md" color="primary"/>
     </router-link>
     <span>{{ type.name }}</span>
@@ -45,7 +39,10 @@ function typeHandle(value: string) {
 
 .type-button
   display: flex
-  flex-direction: column
+  align-items: center
+  justify-content: center
+  width: 75px
+  height: 75px
   border-radius: 15px
   background: $cream
 

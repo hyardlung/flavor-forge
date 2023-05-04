@@ -18,26 +18,3 @@ export async function makeRequest(url: string, query?: object, headers?: object 
     throw error;
   }
 }
-
-// export async function getRecipesByType(type?: string, result: [], loading: boolean) {
-//   loading = true
-//   try {
-//     const resp = await request
-//       .get(`${baseURL}/recipes/complexSearch`)
-//       .query({ type: type, apiKey: apiKey.value })
-
-//     findedRecipes.value = resp.body.results
-//     console.log(resp.body.results) // возвращает массив рецептов по переданному типу
-//     // findedRecipes.value = resp.body.results
-//   } catch (err) {
-//     console.log(err)
-//   } finally {
-//     searchLoading.value = false
-//   }
-// }
-
-// export function getIdsAsString(arr: findedRecipe[]): string {
-//   const ids: number[] = arr.map(obj => obj.id);
-//   const idsString: string = ids.join(',');
-//   return idsString;
-// }

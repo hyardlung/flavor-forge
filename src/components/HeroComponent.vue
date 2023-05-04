@@ -10,7 +10,7 @@
                        'text-uppercase',
                        `${isHomeComponent ? 'text-h2' : 'text-h3'}`]"
           >{{ recipe.title }}</h1>
-          <p v-if="!isHomeComponent" class="text-subtitle1" v-html="recipe.summary" />
+          <p v-if="!isHomeComponent" class="text-subtitle1 hero__summary" v-html="recipe.summary" />
           <div class="divider hero__divider"></div>
 
           <div class="hero__diets">
@@ -21,12 +21,10 @@
             </div>
           </div>
 
-          <q-btn v-if="isHomeComponent" padding="15px 40px"
-                 color="accent"
-                 text-color="secondary"
-                 label="Read now"
-                 unelevated
-                 class="hero__btn" />
+          <router-link v-if="isHomeComponent"
+                       :to="`recipes/${recipe.id}`"
+                       @click="goToRecipe(recipe.id)"
+                       class="hero__btn">Read now</router-link>
         </div>
         <div :class="[`${isHomeComponent ? 'col-6' : 'col-4'}`]">
           <q-img :src="recipe.image"
@@ -45,28 +43,47 @@ import { onMounted } from 'vue';
 import { useStore } from '../stores/store'
 import { Recipe, RecipeInformation } from './models';
 
-defineProps<{
+interface Props {
   recipe: Recipe | RecipeInformation;
   isHomeComponent?: boolean;
-}>()
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  isHomeComponent: true
+});
 
 const store = useStore();
 
 onMounted(() => {
-  // startPolling()
-  // store.getRandomRecipe()
+  if (props.isHomeComponent) {
+    store.getRandomRecipes();
+    startPolling();
+  }
 })
 
 function startPolling() {
   setInterval(() => {
-    store.getRandomRecipe();
-  }, 5000);
+    const randomIndex = Math.floor(Math.random() * store.findedRecipes.length);
+    store.recipe = store.findedRecipes[randomIndex];
+  }, 10000);
+}
+
+function goToRecipe(id: number | string) {
+  store.getRecipeDetails(id);
 }
 </script>
 
 <style lang="sass">
-.hero__img
-  border-radius: 80px
+.hero
+  &__img
+    border-radius: 80px
+
+  &__summary
+    a
+      color: #75a4ea
+      transition: all .2s ease
+      &:hover
+        color: $cream
 </style>
 
 <style lang="sass" scoped>
@@ -93,7 +110,12 @@ function startPolling() {
     white-space: nowrap
 
   &__btn
+    padding: 15px 40px
+    color: $secondary
+    background-color: $accent
     border-radius: 15px
+    text-decoration: none
+    text-transform: uppercase
 
   &__divider
     background: $secondary
