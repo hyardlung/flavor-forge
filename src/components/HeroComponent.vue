@@ -10,7 +10,7 @@
                        'text-uppercase',
                        `${isHomeComponent ? 'text-h2' : 'text-h3'}`]"
           >{{ recipe.title }}</h1>
-          <p v-if="!isHomeComponent" class="text-subtitle1" v-html="recipe.summary" />
+          <p v-if="!isHomeComponent" class="text-subtitle1 hero__summary" v-html="recipe.summary" />
           <div class="divider hero__divider"></div>
 
           <div class="hero__diets">
@@ -72,8 +72,16 @@ function startPolling() {
 </script>
 
 <style lang="sass">
-.hero__img
-  border-radius: 80px
+.hero
+  &__img
+    border-radius: 80px
+
+  &__summary
+    a
+      color: #75a4ea
+      transition: all .2s ease
+      &:hover
+        color: $cream
 </style>
 
 <style lang="sass" scoped>
