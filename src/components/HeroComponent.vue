@@ -21,12 +21,10 @@
             </div>
           </div>
 
-          <q-btn v-if="isHomeComponent" padding="15px 40px"
-                 color="accent"
-                 text-color="secondary"
-                 label="Read now"
-                 unelevated
-                 class="hero__btn" />
+          <router-link v-if="isHomeComponent"
+                       :to="`recipes/${recipe.id}`"
+                       @click="goToRecipe(recipe.id)"
+                       class="hero__btn">Read now</router-link>
         </div>
         <div :class="[`${isHomeComponent ? 'col-6' : 'col-4'}`]">
           <q-img :src="recipe.image"
@@ -69,6 +67,10 @@ function startPolling() {
     store.recipe = store.findedRecipes[randomIndex];
   }, 5000);
 }
+
+function goToRecipe(id: number | string) {
+  store.getRecipeDetails(id);
+}
 </script>
 
 <style lang="sass">
@@ -108,7 +110,12 @@ function startPolling() {
     white-space: nowrap
 
   &__btn
+    padding: 15px 40px
+    color: $secondary
+    background-color: $accent
     border-radius: 15px
+    text-decoration: none
+    text-transform: uppercase
 
   &__divider
     background: $secondary
