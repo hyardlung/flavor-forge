@@ -59,14 +59,7 @@ export const useStore = defineStore('store', () => {
   });
 
   const findedRecipes: Ref<findedRecipe[]> = ref([]);
-
-  const findedRecipesByDiet: Ref<findedRecipe[]> = ref ([
-    {
-      id: 0,
-      title: '',
-      image: '',
-    }
-  ])
+  const findedRecipesByDiet: Ref<findedRecipe[]> = ref ([])
 
   const mealTypes: Ref<mealType[]> = ref([
     { name: 'Main course', icon: laHamburgerSolid },
@@ -113,7 +106,7 @@ export const useStore = defineStore('store', () => {
   async function getRecipesByDiet(diet: string) {
     searchLoading.value = true;
     try {
-      const response = await makeRequest('/recipes/complexSearch', { diet: diet, number: 12 } );
+      const response = await makeRequest('/recipes/complexSearch', { diet: diet, number: 6 } );
       findedRecipesByDiet.value = response.results;
     } catch (err) {
       console.log(err);
