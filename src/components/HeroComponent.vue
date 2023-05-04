@@ -58,8 +58,8 @@ const store = useStore();
 
 onMounted(() => {
   if (props.isHomeComponent) {
-    store.getRandomRecipe();
-    startPolling()
+    store.getRandomRecipes();
+    startPolling();
   }
 })
 

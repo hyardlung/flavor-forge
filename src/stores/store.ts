@@ -182,23 +182,12 @@ export const useStore = defineStore('store', () => {
     searchField.value = '';
   }
 
-  async function getRandomRecipe() {
-    searchLoading.value = true;
-    try {
-      const response = await makeRequest('/recipes/random');
-      recipe.value = response.recipes[0];
-    } catch (err) {
-      console.log(err)
-    } finally {
-      searchLoading.value = false;
-    }
-  };
-
   async function getRandomRecipes() {
     searchLoading.value = true;
     try {
       const response = await makeRequest('/recipes/random', { number: 12 });
       findedRecipes.value = response.recipes;
+      recipe.value = findedRecipes.value[0];
     } catch (err) {
       console.log(err)
     } finally {
@@ -211,8 +200,8 @@ export const useStore = defineStore('store', () => {
     findedRecipes, findedRecipesByDiet, mealTypes, diets,
     ingredient, nutrients, recipeInstruction, proteinRange, carbohydratesRange,
     selectedType, selectedDiet, searchField, pagination,
-    getRandomRecipe, getRandomRecipes, getRecipesByType,
-    getRecipesByDiet, getRecipeDetails, getRecipeInstruction,
+    getRandomRecipes, getRecipesByType, getRecipesByDiet,
+    getRecipeDetails, getRecipeInstruction,
     searchSubmit, searchReset
   }
 });
