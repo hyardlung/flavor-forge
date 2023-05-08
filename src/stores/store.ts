@@ -5,9 +5,9 @@ import { makeRequest } from './../api/index'
 
 import { Recipe, RecipeInformation, findedRecipe, mealType, Ingredient, Nutrient, InstructionStep, Pagination, NutrientsRange } from 'src/components/models';
 import { laHamburgerSolid, laGlassMartiniSolid, laCookieBiteSolid,
-  laBaconSolid, laBreadSliceSolid, laMugHotSolid,
+  laBaconSolid, laBreadSliceSolid, laMugHotSolid, laHotdogSolid,
   laCarrotSolid, laPepperHotSolid, laDrumstickBiteSolid,
-  laAppleAltSolid, laPizzaSliceSolid } from '@quasar/extras/line-awesome'
+  laAppleAltSolid, laPizzaSliceSolid, laLemon, laGlassWhiskeySolid } from '@quasar/extras/line-awesome'
 
 export const useStore = defineStore('store', () => {
   const searchLoading = ref(false);
@@ -72,10 +72,10 @@ export const useStore = defineStore('store', () => {
     { name: 'Sauce', icon: laPepperHotSolid },
     { name: 'Snack', icon: laAppleAltSolid },
     { name: 'Beverage', icon: laGlassMartiniSolid },
-    { name: 'Drink', icon: laMugHotSolid },
-    { name: 'Soup', icon: '' },
-    { name: 'Marinade', icon: '' },
-    { name: 'Fingerfood', icon: '' },
+    { name: 'Drink', icon: laGlassWhiskeySolid },
+    { name: 'Soup', icon: laMugHotSolid },
+    { name: 'Fingerfood', icon: laHotdogSolid },
+    { name: 'Marinade', icon: laLemon },
   ]);
 
   const diets: Ref<string[]> = ref([
