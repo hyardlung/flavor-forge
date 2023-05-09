@@ -1,20 +1,20 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import type { Ref } from 'vue';
 import { makeRequest } from './../api/index'
 
 import { Recipe, RecipeInformation, findedRecipe, mealType, Ingredient, Nutrient, InstructionStep, Pagination, NutrientsRange } from 'src/components/models';
 import { laHamburgerSolid, laGlassMartiniSolid, laCookieBiteSolid,
-  laBaconSolid, laBreadSliceSolid, laMugHotSolid,
+  laBaconSolid, laBreadSliceSolid, laMugHotSolid, laHotdogSolid,
   laCarrotSolid, laPepperHotSolid, laDrumstickBiteSolid,
-  laAppleAltSolid, laPizzaSliceSolid } from '@quasar/extras/line-awesome'
+  laAppleAltSolid, laPizzaSliceSolid, laLemon, laGlassWhiskeySolid } from '@quasar/extras/line-awesome'
 
 export const useStore = defineStore('store', () => {
   const searchLoading = ref(false);
-  const currentDiet = ref('');
 
-  const selectedType = ref();
+  const currentDiet = ref('');
   const selectedDiet = ref();
+  const selectedType = ref();
   const searchField = ref();
 
   const recipe = ref<Recipe>({
@@ -72,10 +72,10 @@ export const useStore = defineStore('store', () => {
     { name: 'Sauce', icon: laPepperHotSolid },
     { name: 'Snack', icon: laAppleAltSolid },
     { name: 'Beverage', icon: laGlassMartiniSolid },
-    { name: 'Drink', icon: laMugHotSolid },
-    { name: 'Soup', icon: '' },
-    { name: 'Marinade', icon: '' },
-    { name: 'Fingerfood', icon: '' },
+    { name: 'Drink', icon: laGlassWhiskeySolid },
+    { name: 'Soup', icon: laMugHotSolid },
+    { name: 'Fingerfood', icon: laHotdogSolid },
+    { name: 'Marinade', icon: laLemon },
   ]);
 
   const diets: Ref<string[]> = ref([
@@ -89,6 +89,25 @@ export const useStore = defineStore('store', () => {
     perPage: 0,
     pages: 0
   })
+
+
+  const isXSRes = ref(false);
+  const isSMRes = ref(false);
+  const isMDRes = ref(false);
+
+  onMounted(() => {
+    window.addEventListener('resize', handleResize);
+  });
+
+  onBeforeUnmount(() => {
+    window.removeEventListener('resize', handleResize);
+  });
+
+  function handleResize() {
+    isXSRes.value = window.innerWidth < 600;
+    isSMRes.value = window.innerWidth >= 600 && window.innerWidth < 1024;
+    isMDRes.value = window.innerWidth >= 1024;
+  };
 
   async function getRecipesByType(type: string) {
     searchLoading.value = true;
@@ -193,6 +212,7 @@ export const useStore = defineStore('store', () => {
     findedRecipes, findedRecipesByDiet, mealTypes, diets,
     ingredient, nutrients, recipeInstruction, proteinRange, carbohydratesRange,
     selectedType, selectedDiet, searchField, pagination,
+    isXSRes, isSMRes, isMDRes,
     getRandomRecipes, getRecipesByType, getRecipesByDiet,
     getRecipeDetails, getRecipeInstruction,
     searchSubmit, searchReset

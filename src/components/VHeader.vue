@@ -5,9 +5,8 @@
         <q-toolbar class="q-px-lg q-py-md">
           <router-link to="/">
             <q-img src="src/assets/logo.svg"
-                   width="282px"
-                   height="45px"
-                   fit="contain" />
+                   fit="contain"
+                   class="logo"/>
           </router-link>
           <q-space />
           <q-btn-toggle v-model="model"
@@ -50,5 +49,9 @@ function openMenu() {
 </script>
 
 <style lang="sass">
-
+.logo
+  width: 282px
+  height: 45px
+  @media screen and (max-width: 599px)
+    width: 200px
 </style>

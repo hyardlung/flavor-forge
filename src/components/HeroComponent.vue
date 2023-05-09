@@ -1,9 +1,9 @@
 <template>
   <section class="row q-py-lg justify-center hero">
     <h1 v-if="store.searchLoading">Loading...</h1>
-    <div v-else class="col-10">
+    <div v-else class="col-md-10 col-xs-12">
       <div class="row q-pa-lg justify-between">
-        <div :class="[`${isHomeComponent ? 'col-5' : 'col-7'}`]">
+        <div :class="[`${isHomeComponent ? 'col-md-5' : 'col-md-7'}`, 'col-sm-12', 'hero__heading']">
           <h1 :class="['q-mt-none',
                        'q-mb-sm',
                        'text-weight-bold',
@@ -26,11 +26,11 @@
                        @click="goToRecipe(recipe.id)"
                        class="hero__btn">Read now</router-link>
         </div>
-        <div :class="[`${isHomeComponent ? 'col-6' : 'col-4'}`]">
+        <div :class="[`${isHomeComponent ? 'col-md-6' : 'col-md-4'}`, 'col-sm-8', 'col-xs-12']">
           <q-img :src="recipe.image"
                  spinner-color="secondary"
                  spinner-size="82px"
-                 :ratio="isHomeComponent ? 16 / 10 : 10 / 12"
+                 :ratio="store.isMDRes ? (isHomeComponent ? 16 / 10 : 10 / 12) : 16 / 10"
                  img-class="hero__img" />
         </div>
       </div>
@@ -77,6 +77,8 @@ function goToRecipe(id: number | string) {
 .hero
   &__img
     border-radius: 80px
+    @media screen and (max-width: 1023px)
+      border-radius: 40px
 
   &__summary
     a
@@ -90,6 +92,12 @@ function goToRecipe(id: number | string) {
 .hero
   color: #fff
   background: $primary
+
+  &__heading
+    @media screen and (max-width: 1023px)
+      margin-bottom: 42px
+      h1
+        font-size: 46px
 
   &__divider
     margin-bottom: 20px

@@ -1,7 +1,7 @@
 <template>
   <router-link :to="`recipes/${recipe.id}`" @click="goToRecipe(recipe.id)">
     <q-card class="card">
-      <q-img :src="recipe.image">
+      <q-img :src="recipe.image" :ratio="store.isXSRes ? 20 / 10 : null">
         <div class="absolute-bottom ">
           {{ recipe.title }}
         </div>
@@ -12,7 +12,9 @@
 
 <script setup lang="ts">
 import { findedRecipe } from './models';
+import { useStore } from 'src/stores/store';
 
+const store = useStore();
 const props = defineProps<{
   recipe: findedRecipe;
 }>()

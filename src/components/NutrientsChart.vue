@@ -1,5 +1,5 @@
 <template>
-  <div class="nutrients-chart">
+  <div class="nutrients-chart" style="height: 240px;">
     <vue-apex-charts
       type="donut"
       :options="chartOptions"
@@ -42,7 +42,7 @@ const chartOptions = reactive({
     id: 'vuechart',
   },
   legend: {
-    position: 'left',
+    position: 'top',
     fontSize: '16px',
     markers: {
       width: 16,
@@ -68,7 +68,7 @@ const chartOptions = reactive({
   plotOptions: {
     pie: {
       donut: {
-        size: '80%',
+        size: '70%',
         labels: {
           show: true,
           total: {
@@ -83,6 +83,16 @@ const chartOptions = reactive({
       }
     }
   },
+  responsive: [
+    {
+      breakpoint: 1023,
+      options: {
+        legend: {
+          position: 'left'
+        }
+      }
+    }
+  ]
 });
 </script>
 
