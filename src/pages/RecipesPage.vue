@@ -1,7 +1,7 @@
 <template>
   <q-page>
-    <section class="row q-py-lg justify-center">
-      <div class="column col-10">
+    <section class="row q-pa-lg justify-center">
+      <div class="column col-md-10 col-xs-12">
         <div class="row">
           <custom-title>
             <template #title>Recipes</template>
@@ -43,6 +43,22 @@
               />
             </div>
 
+            <div class="col gt-sm">
+              <q-input
+                filled
+                dense
+                label="Search"
+                label-color="primary"
+                v-model="store.searchField"
+              >
+                <template v-slot:append>
+                  <q-icon name="search" color="primary" />
+                </template>
+              </q-input>
+            </div>
+
+          </div>
+          <div class="row lt-md q-col-gutter-md q-mt-md" style="max-width: 532px">
             <div class="col">
               <q-input
                 filled
@@ -56,6 +72,7 @@
                 </template>
                 </q-input>
             </div>
+
           </div>
           <div class="row q-col-gutter-md q-mt-md">
             <div class="col-auto">
@@ -79,7 +96,9 @@
               />
               <p style="color: #767676">Carbohydrates (grams per serving)</p>
             </div>
-            <div class="col-auto q-ml-auto">
+          </div>
+          <div class="row q-col-gutter-md q-mt-md">
+            <div class="col-auto">
               <q-btn label="Search" type="submit" color="primary"/>
               <q-btn label="Reset" type="reset" color="primary" outline class="q-ml-sm" />
             </div>
@@ -98,7 +117,7 @@
           />
         </div>
 
-        <div class="row q-mt-lg card-wrapper">
+        <div class="row q-mt-lg q-gutter-lg card-wrapper">
           <q-spinner-clock v-if="store.searchLoading || !store.findedRecipes" size="4em" color="primary" />
           <template v-else>
             <recipe-card v-for="recipe in store.findedRecipes" :key="recipe.id" :recipe="recipe"></recipe-card>
@@ -133,7 +152,14 @@ function goToPage(pageNumber: number) {
 
 <style lang="sass" scoped>
 .card-wrapper
+  margin-top: 50px
+  width: 100%
   display: grid
   grid-template-columns: repeat(3, 1fr)
-  gap: 40px
+  @media screen and (max-width: 1023px)
+    margin-top: 20px
+    grid-template-columns: repeat(2, 1fr)
+  @media screen and (max-width: 599px)
+    margin-top: 0
+    grid-template-columns: repeat(1, 1fr)
 </style>

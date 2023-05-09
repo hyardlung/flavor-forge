@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import type { Ref } from 'vue';
 import { makeRequest } from './../api/index'
 
@@ -11,10 +11,10 @@ import { laHamburgerSolid, laGlassMartiniSolid, laCookieBiteSolid,
 
 export const useStore = defineStore('store', () => {
   const searchLoading = ref(false);
-  const currentDiet = ref('');
 
-  const selectedType = ref();
+  const currentDiet = ref('');
   const selectedDiet = ref();
+  const selectedType = ref();
   const searchField = ref();
 
   const recipe = ref<Recipe>({
@@ -89,6 +89,25 @@ export const useStore = defineStore('store', () => {
     perPage: 0,
     pages: 0
   })
+
+
+  const isXSRes = ref(false);
+  const isSMRes = ref(false);
+  const isMDRes = ref(false);
+
+  onMounted(() => {
+    window.addEventListener('resize', handleResize);
+  });
+
+  onBeforeUnmount(() => {
+    window.removeEventListener('resize', handleResize);
+  });
+
+  function handleResize() {
+    isXSRes.value = window.innerWidth < 600;
+    isSMRes.value = window.innerWidth >= 600 && window.innerWidth < 1024;
+    isMDRes.value = window.innerWidth >= 1024;
+  };
 
   async function getRecipesByType(type: string) {
     searchLoading.value = true;
@@ -193,6 +212,7 @@ export const useStore = defineStore('store', () => {
     findedRecipes, findedRecipesByDiet, mealTypes, diets,
     ingredient, nutrients, recipeInstruction, proteinRange, carbohydratesRange,
     selectedType, selectedDiet, searchField, pagination,
+    isXSRes, isSMRes, isMDRes,
     getRandomRecipes, getRecipesByType, getRecipesByDiet,
     getRecipeDetails, getRecipeInstruction,
     searchSubmit, searchReset
