@@ -44,6 +44,7 @@
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router'
 import { useStore } from 'src/stores/store'
+import { getRecipeDetails, getRecipeInstruction } from 'src/api/service';
 import HeroComponent from 'src/components/HeroComponent.vue';
 import IngredientCard from 'src/components/IngredientCard.vue';
 import NutrientsChart from 'src/components/NutrientsChart.vue';
@@ -55,8 +56,8 @@ const store = useStore();
 
 onMounted(() => {
   const id = route.params.id as number | string;
-  store.getRecipeDetails(id);
-  store.getRecipeInstruction(id);
+  getRecipeDetails(id);
+  getRecipeInstruction(id);
 });
 </script>
 

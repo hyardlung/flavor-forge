@@ -8,7 +8,7 @@
           </custom-title>
         </div>
         <q-form
-          @submit="store.searchSubmit"
+          @submit="searchSubmit"
           @reset="store.searchReset"
           class="column q-gutter-md q-mt-lg"
         >
@@ -131,22 +131,24 @@
 <script setup lang="ts">
 import _ from 'lodash';
 import { useStore } from '../stores/store'
-import { ref, computed, onBeforeMount } from 'vue';
+import { computed, onBeforeMount } from 'vue';
+import { getRandomRecipes, searchSubmit } from 'src/api/service';
+import { mealTypes } from 'src/data/constants';
 import CustomTitle from 'src/components/CustomTitle.vue';
 import RecipeCard from 'src/components/RecipeCard.vue';
 
 const store = useStore();
 
 onBeforeMount(() => {
-  if (!store.findedRecipes.length) store.getRandomRecipes()
-})
+  if (!store.findedRecipes.length) getRandomRecipes();
+});
 
 const types = computed(() => {
-  return _.map(store.mealTypes, 'name');
+  return _.map(mealTypes, 'name');
 });
 
 function goToPage(pageNumber: number) {
-  store.searchSubmit(pageNumber);
+  searchSubmit(pageNumber);
 };
 </script>
 
