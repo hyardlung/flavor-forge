@@ -3,11 +3,8 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 import type { Ref } from 'vue';
 import { makeRequest } from './../api/index'
 
-import { Recipe, RecipeInformation, findedRecipe, mealType, Ingredient, Nutrient, InstructionStep, Pagination, NutrientsRange } from 'src/components/models';
-import { laHamburgerSolid, laGlassMartiniSolid, laCookieBiteSolid,
-  laBaconSolid, laBreadSliceSolid, laMugHotSolid, laHotdogSolid,
-  laCarrotSolid, laPepperHotSolid, laDrumstickBiteSolid,
-  laAppleAltSolid, laPizzaSliceSolid, laLemon, laGlassWhiskeySolid } from '@quasar/extras/line-awesome'
+import { Recipe, RecipeInformation, findedRecipe, Ingredient, Nutrient, InstructionStep, Pagination, NutrientsRange } from 'src/data/models';
+import { mealTypes, diets } from 'src/data/constants';
 
 export const useStore = defineStore('store', () => {
   const searchLoading = ref(false);
@@ -60,29 +57,6 @@ export const useStore = defineStore('store', () => {
 
   const findedRecipes: Ref<findedRecipe[]> = ref([]);
   const findedRecipesByDiet: Ref<findedRecipe[]> = ref ([])
-
-  const mealTypes: Ref<mealType[]> = ref([
-    { name: 'Main course', icon: laHamburgerSolid },
-    { name: 'Side dish', icon: laDrumstickBiteSolid },
-    { name: 'Dessert', icon: laCookieBiteSolid },
-    { name: 'Appetizer', icon: laPizzaSliceSolid },
-    { name: 'Salad', icon: laCarrotSolid },
-    { name: 'Bread', icon: laBreadSliceSolid },
-    { name: 'Breakfast', icon: laBaconSolid },
-    { name: 'Sauce', icon: laPepperHotSolid },
-    { name: 'Snack', icon: laAppleAltSolid },
-    { name: 'Beverage', icon: laGlassMartiniSolid },
-    { name: 'Drink', icon: laGlassWhiskeySolid },
-    { name: 'Soup', icon: laMugHotSolid },
-    { name: 'Fingerfood', icon: laHotdogSolid },
-    { name: 'Marinade', icon: laLemon },
-  ]);
-
-  const diets: Ref<string[]> = ref([
-    'Gluten Free', 'Ketogenic', 'Vegetarian',
-    'Lacto-Vegetarian', 'Ovo-Vegetarian', 'Vegan',
-    'Pescetarian', 'Paleo', 'Primal', 'Low FODMAP', 'Whole30'
-  ]);
 
   const pagination = ref<Pagination>({
     currentPage: 1,

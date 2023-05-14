@@ -41,7 +41,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useStore } from '../stores/store'
-import { Recipe, RecipeInformation } from './models';
+import { Recipe, RecipeInformation } from '../data/models';
 
 interface Props {
   recipe: Recipe | RecipeInformation;

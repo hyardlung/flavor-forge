@@ -1,7 +1,9 @@
 <template>
-  <router-link :to="`recipes/${recipe.id}`" @click="goToRecipe(recipe.id)">
+  <router-link :to="`recipes/${recipe.id}`"
+               @click="goToRecipe(recipe.id)">
     <q-card class="card">
-      <q-img :src="recipe.image" :ratio="store.isXSRes ? 20 / 10 : null">
+      <q-img :src="recipe.image"
+             :ratio="store.isXSRes ? 20 / 10 : null">
         <div class="absolute-bottom ">
           {{ recipe.title }}
         </div>
@@ -11,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { findedRecipe } from './models';
+import { findedRecipe } from '../data/models';
 import { useStore } from 'src/stores/store';
 
 const store = useStore();

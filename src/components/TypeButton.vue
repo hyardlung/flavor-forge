@@ -1,8 +1,12 @@
 <template>
   <div v-if="type.icon"
        class="button-wrapper">
-    <router-link to="/recipes" @click="typeHandle(type.name)" class="type-button">
-      <q-icon :name="type.icon" size="md" color="primary"/>
+    <router-link to="/recipes"
+                 @click="typeHandle(type.name)"
+                 class="type-button">
+      <q-icon :name="type.icon"
+              size="md"
+              color="primary" />
     </router-link>
     <span>{{ type.name }}</span>
   </div>
@@ -14,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { mealType } from './models'
+import { mealType } from '../data/models'
 
 defineProps<{
   type: mealType
