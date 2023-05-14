@@ -8,7 +8,7 @@
         </custom-title>
       </div>
       <div class="row row-wrap q-gutter-y-xl">
-        <div v-for="item in store.mealTypes"
+        <div v-for="item in mealTypes"
                :key="item.name" class="col-md-2 col-sm-3 col-xs-4">
           <type-button :type="item" @go-to-type="selectType"></type-button>
       </div>
@@ -18,18 +18,12 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from 'src/stores/store';
 import CustomTitle from './CustomTitle.vue';
 import TypeButton from './TypeButton.vue';
-
-const store = useStore();
+import { getRecipesByType } from 'src/api/service';
+import { mealTypes } from 'src/data/constants';
 
 function selectType(type: string) {
-  store.getRecipesByType(type)
-
-}
+  getRecipesByType(type)
+};
 </script>
-
-<style lang="sass">
-
-</style>

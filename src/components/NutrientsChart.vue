@@ -1,10 +1,9 @@
 <template>
-  <div class="nutrients-chart" style="height: 240px;">
-    <vue-apex-charts
-      type="donut"
-      :options="chartOptions"
-      :series="scores"
-    ></vue-apex-charts>
+  <div class="nutrients-chart"
+       style="height: 240px;">
+    <vue-apex-charts type="donut"
+                     :options="chartOptions"
+                     :series="scores"></vue-apex-charts>
 
   </div>
 </template>
@@ -13,7 +12,7 @@
 import _ from 'lodash';
 import { reactive, computed } from 'vue';
 import VueApexCharts from 'vue3-apexcharts';
-import { Nutrient } from './models';
+import { Nutrient } from '../data/models';
 
 const props = defineProps<{
   nutrients: Nutrient[],
@@ -54,7 +53,7 @@ const chartOptions = reactive({
   },
   dataLabels: {
     enabled: false,
-    formatter: function(value: any, { seriesIndex, w }: { seriesIndex: number, w: any }) {
+    formatter: function (value: any, { seriesIndex, w }: { seriesIndex: number, w: any }) {
       return w.config.series[seriesIndex] + 'g'
     },
     style: {

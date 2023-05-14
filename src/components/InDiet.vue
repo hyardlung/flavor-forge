@@ -22,6 +22,8 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue';
 import { useStore } from 'src/stores/store';
+import { getRecipesByDiet, getRecipeDetails } from 'src/api/service';
+import { diets } from 'src/data/constants';
 import CustomTitle from './CustomTitle.vue';
 import RecipeCard from './RecipeCard.vue';
 
@@ -32,13 +34,13 @@ onMounted(() => {
 })
 
 function getNextDiet() {
-  store.currentDiet = store.diets[0];
-  store.getRecipesByDiet(store.currentDiet);
+  store.currentDiet = diets.value[0];
+  getRecipesByDiet(store.currentDiet);
   let index = 0;
   const intervalId = setInterval(() => {
-    store.currentDiet = store.diets[index];
-    store.getRecipesByDiet(store.currentDiet)
-    index = (index + 1) % store.diets.length;
+    store.currentDiet = diets.value[index];
+    getRecipesByDiet(store.currentDiet)
+    index = (index + 1) % diets.value.length;
   }, 10000);
 
   onUnmounted(() => {
@@ -47,7 +49,7 @@ function getNextDiet() {
 };
 
 function goToRecipe(id: number) {
-  store.getRecipeDetails(id);
+  getRecipeDetails(id);
 }
 </script>
 

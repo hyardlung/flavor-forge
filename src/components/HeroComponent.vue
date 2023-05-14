@@ -41,7 +41,8 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useStore } from '../stores/store'
-import { Recipe, RecipeInformation } from './models';
+import { Recipe, RecipeInformation } from '../data/models';
+import { getRecipeDetails, getRandomRecipes } from 'src/api/service';
 
 interface Props {
   recipe: Recipe | RecipeInformation;
@@ -56,7 +57,7 @@ const store = useStore();
 
 onMounted(() => {
   if (props.isHomeComponent) {
-    store.getRandomRecipes();
+    getRandomRecipes();
     startPolling();
   }
 })
@@ -69,7 +70,7 @@ function startPolling() {
 }
 
 function goToRecipe(id: number | string) {
-  store.getRecipeDetails(id);
+  getRecipeDetails(id);
 }
 </script>
 

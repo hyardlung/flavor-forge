@@ -4,7 +4,9 @@
       <div class="col-7 title-wrapper">
         <div class="row items-center q-col-gutter-lg">
           <div class="col-auto">
-            <h3 class="q-my-none text-h5 text-weight-semibold text-uppercase title">{{`0${step.number} step`}}</h3>
+            <h3
+                class="q-my-none text-h5 text-weight-semibold text-uppercase title">
+              {{ `0${step.number} step` }}</h3>
           </div>
           <div class="col">
             <div class="divider title__divider"></div>
@@ -33,7 +35,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { InstructionStep } from './models';
+import { InstructionStep } from '../data/models';
 
 defineProps<{
   step: InstructionStep;

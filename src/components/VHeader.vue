@@ -6,7 +6,7 @@
           <router-link to="/">
             <q-img src="src/assets/logo.svg"
                    fit="contain"
-                   class="logo"/>
+                   class="logo" />
           </router-link>
           <q-space />
           <q-btn-toggle v-model="model"
@@ -14,14 +14,14 @@
                         stretch
                         toggle-color="yellow"
                         :options="links"
-                        class="gt-xs"/>
+                        class="gt-xs" />
           <q-btn flat
                  dense
                  round
                  icon="menu"
                  aria-label="Menu"
                  @click="openMenu"
-                 class="xs"/>
+                 class="xs" />
         </q-toolbar>
       </div>
     </div>
@@ -31,7 +31,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { Ref } from 'vue'
-import { HeaderLink } from './models';
+import { HeaderLink } from '../data/models';
 
 const emit = defineEmits<{
   (e: 'toggleMenu'): void

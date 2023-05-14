@@ -1,13 +1,11 @@
 <template>
   <div class="row col-12 q-col-gutter-md q-pr-md items-center recipe-card">
-    <q-img
-      :src="`https://spoonacular.com/cdn/ingredients_100x100/${ingredient.image}`"
-      :ratio="4/4"
-      width="70px"
-      spinner-color="primary"
-      spinner-size="40px"
-      class="col-auto"
-    />
+    <q-img :src="`https://spoonacular.com/cdn/ingredients_100x100/${ingredient.image}`"
+           :ratio="4 / 4"
+           width="70px"
+           spinner-color="primary"
+           spinner-size="40px"
+           class="col-auto" />
     <p class="text-h5">{{ ingredient.name }}</p>
     <p class="q-ml-auto">
       <span class="text-h6 q-mr-sm">{{ ingredient.amount }}</span>
@@ -17,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { Ingredient } from './models'
+import { Ingredient } from '../data/models'
 
 defineProps<{
   ingredient: Ingredient
